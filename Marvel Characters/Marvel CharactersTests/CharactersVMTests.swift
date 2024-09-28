@@ -11,12 +11,12 @@ import XCTest
 final class CharactersVMTests: XCTestCase {
     
     var mockService: MockCharacterService!
-    var vm: CharacterVM!
+    var vm: ListViewModel!
     
     override func setUp()  {
         super.setUp()
          mockService = MockCharacterService()
-         vm = CharacterVM(coordinator: nil, characterService: mockService)
+         vm = ListViewModel(coordinator: nil, characterService: mockService)
     }
     
     //dealocate instances

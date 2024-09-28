@@ -14,7 +14,16 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     var container: ModelContainer?
     private var tableView = UITableView()
     private var searchBar = UISearchBar()
-    private var vm: CharacterVM!
+    private var vm: ListViewModel
+    
+    init(vm: ListViewModel) {
+        self.vm = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,19 +35,23 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         title = "Marvel Characters"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
+       // setUpBindings()
         setUpSearchBar()
         setUpTableView()
+        setUpEmptyStateLabel()
         
-        vm = CharacterVM(coordinator: coordinator!)
+//        vm = ListViewModel(coordinator: coordinator!)
         
         vm.onCharactersUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                self?.updateUI()
             }}
         
         vm.onFetchError = { [weak self] errorMessage in
             DispatchQueue.main.async {
                 self?.showErrorAlert(message: errorMessage)
+                self?.showEmptyState(message: "Erro ao carregar os dados.")
             }
         }
         vm.fetchCharacters()
@@ -77,10 +90,53 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         ])
     }
     
+    private func setUpEmptyStateLabel() {
+        view.addSubview(emptyStateLabel)
+        emptyStateLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
+    
+    
     private func showErrorAlert(message: String) {
         let alertController = UIAlertController(title: "Erro", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
         present(alertController, animated: true)
+    }
+    
+    private var emptyStateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.isHidden = true
+        return label
+    }()
+    
+    private func updateUI() {
+        tableView.reloadData()
+        
+        if vm.filteredCharacters.isEmpty {
+            showEmptyState(message: "Nenhum personagem encontrado. Tente novamente ou verifique sua conexão.")
+        } else {
+            hideEmptyState()
+        }
+    }
+
+    private func showEmptyState(message: String) {
+        emptyStateLabel.text = message
+        emptyStateLabel.isHidden = false
+        tableView.isHidden = true
+    }
+
+    private func hideEmptyState() {
+        emptyStateLabel.isHidden = true
+        tableView.isHidden = false
     }
     
     
@@ -109,7 +165,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     // UIViewDelegate methods
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCharacter = vm.filteredCharacters[indexPath.row]
-        vm?.didSelectCharacter(selectedCharacter)
+        vm.didSelectCharacter(selectedCharacter, index: indexPath.row)
     }
     
     //Search bar methods
@@ -117,8 +173,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print("text changing \(searchText)")
         vm.filterCharacters(with: searchText)
+        self.showEmptyState(message: "Erro ao carregar os dados.")
+
     
     }
+    
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
@@ -133,7 +192,8 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             let character = self?.vm.filteredCharacters[indexPath.row]
             print("\(character?.name ?? "") favoritado!")
             
-            self?.vm.favoriteCharacter(at: indexPath.row)
+            
+            self?.vm.favoriteCharacter(by: character?.id ?? 0)
 
             
             completionHandler(true)
@@ -146,9 +206,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+         let character = vm.filteredCharacters[indexPath.row]
+        
         let unfavCharacter = UIContextualAction(style: .normal, title: "Desfavoritar") { [weak self] (action, view, completionHandler) in
-            
-            self?.vm.unfavoriteCharacter(at: indexPath.row)
+            self?.vm.unfavoriteCharacter(by: character.id ?? 0)
             completionHandler(true)
         }
         

@@ -33,7 +33,7 @@
 		6BCA30402CA49F3C00BB4599 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA303F2CA49F3C00BB4599 /* Coordinator.swift */; };
 		6BCA30432CA4A39A00BB4599 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA30422CA4A39A00BB4599 /* AppCoordinator.swift */; };
 		6BEA30662CA4ACB100413203 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA30652CA4ACB100413203 /* ListViewController.swift */; };
-		6BEA306A2CA4ED1700413203 /* CharacterVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA30692CA4ED1700413203 /* CharacterVM.swift */; };
+		6BEA306A2CA4ED1700413203 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA30692CA4ED1700413203 /* ListViewModel.swift */; };
 		6BEA306C2CA4EED200413203 /* CharacterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA306B2CA4EED200413203 /* CharacterService.swift */; };
 		6BEA306F2CA505C500413203 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEA306E2CA505C500413203 /* String.swift */; };
 /* End PBXBuildFile section */
@@ -86,7 +86,7 @@
 		6BCA303F2CA49F3C00BB4599 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		6BCA30422CA4A39A00BB4599 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6BEA30652CA4ACB100413203 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
-		6BEA30692CA4ED1700413203 /* CharacterVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterVM.swift; sourceTree = "<group>"; };
+		6BEA30692CA4ED1700413203 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		6BEA306B2CA4EED200413203 /* CharacterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterService.swift; sourceTree = "<group>"; };
 		6BEA306E2CA505C500413203 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -210,7 +210,7 @@
 		6BCA303B2CA49E4D00BB4599 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				6BEA30692CA4ED1700413203 /* CharacterVM.swift */,
+				6BEA30692CA4ED1700413203 /* ListViewModel.swift */,
 				6BA93BAE2CA6532F001745F1 /* CharacterDetailsVM.swift */,
 			);
 			path = ViewModel;
@@ -410,7 +410,7 @@
 				6B13E14C2CA8855F00C8B962 /* CharacterSwiftData.swift in Sources */,
 				6BCA30252CA49D1000BB4599 /* SceneDelegate.swift in Sources */,
 				6BEA30662CA4ACB100413203 /* ListViewController.swift in Sources */,
-				6BEA306A2CA4ED1700413203 /* CharacterVM.swift in Sources */,
+				6BEA306A2CA4ED1700413203 /* ListViewModel.swift in Sources */,
 				6BCA30432CA4A39A00BB4599 /* AppCoordinator.swift in Sources */,
 				6B13E14E2CA88CED00C8B962 /* GlobalAppearance.swift in Sources */,
 				6BA93BAF2CA6532F001745F1 /* CharacterDetailsVM.swift in Sources */,

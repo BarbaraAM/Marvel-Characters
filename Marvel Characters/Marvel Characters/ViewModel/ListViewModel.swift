@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CharacterVM {
+class ListViewModel {
     
     private let coordinator: AppCoordinating?
     //configuring the protocol to test
@@ -83,9 +83,9 @@ class CharacterVM {
         }
     }
     
-    func didSelectCharacter(_ character: MarvelCharacterDecoder ) {
+    func didSelectCharacter(_ character: MarvelCharacterDecoder, index: Int ) {
         if let coordinator = coordinator {
-            coordinator.showCharacterDetail(for: character)
+            coordinator.showCharacterDetail(for: character,  at: index, filteredCharacters: filteredCharacters)
         } else {
             print("No coordinator available.")
         }
@@ -103,18 +103,6 @@ class CharacterVM {
     }
     
     
-    //swipes actions fav and unfav
-    func favoriteCharacter(at index: Int) {
-        let characterDecoded = filteredCharacters[index]
-        
-        let storageCharacter = characterManager.convertDecoderToStorage(for: characterDecoded)
-        
-        characterManager.saveCharacterToStorage(storageCharacter)
-
-        onCharactersUpdated?()
-
-    }
-    
     func isCharacterFavorited(_ character: MarvelCharacterDecoder) -> Bool {
         guard let characterId = character.id else {
             return false
@@ -122,23 +110,32 @@ class CharacterVM {
         
         return characterManager.isCharacterFavorited(byId: characterId)
     }
+    func favoriteCharacter(by id: Int) {
+        if let index = filteredCharacters.firstIndex(where: { $0.id == id }) {
+            let characterDecoded = filteredCharacters[index]
+            let storageCharacter = characterManager.convertDecoderToStorage(for: characterDecoded)
+            characterManager.saveCharacterToStorage(storageCharacter)
+            onCharactersUpdated?()
+        }
+    }
     
-    func unfavoriteCharacter(at index: Int) {
-        let characterDecoded = filteredCharacters[index]
-        
-        if let characterId = characterDecoded.id {
-            characterManager.deleteCharacter(byId: characterId)
+    func unfavoriteCharacter(by id: Int) {
+        print("filtered characters \(filteredCharacters)")
+        if let index = filteredCharacters.firstIndex(where: { $0.id == id }) {
+            let characterDecoded = filteredCharacters[index]
+            
+            if let characterId = characterDecoded.id {
+                characterManager.deleteCharacter(byId: characterId)
+            }
+            //if has a connection issue, remove from the list and swiftdata
+            if hasConnectionIssue {
+                filteredCharacters.remove(at: index)
+                onCharactersUpdated?()
+            } else {
+                //here removes only in swiftdata without removing from UI
+                onCharactersUpdated?()
+            }
         }
-        
-        //if has a connection issue, remove from the list and swiftdata
-        if hasConnectionIssue {
-            filteredCharacters.remove(at: index)
-            onCharactersUpdated?()
-        } else {
-            //here removes only in swiftdata without removing from UI
-            onCharactersUpdated?()
-        }
-        
     }
 }
 

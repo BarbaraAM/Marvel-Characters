@@ -9,7 +9,7 @@ import UIKit
 
 class CharacterDetailViewController: UIViewController, UIColorGlobalAppearance {
     
-    private let viewModel: CharacterDetailViewModel
+    private let vm: CharacterDetailViewModel
     private let characterImageView = UIImageView()
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -23,7 +23,7 @@ class CharacterDetailViewController: UIViewController, UIColorGlobalAppearance {
     private let urlsLabel = UILabel()
     
     init(viewModel: CharacterDetailViewModel) {
-        self.viewModel = viewModel
+        self.vm = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,6 +38,11 @@ class CharacterDetailViewController: UIViewController, UIColorGlobalAppearance {
         
         setupUI()
         bindViewModel()
+        setupFavoriteButton()
+        updateFavoriteButton()
+        
+
+        
     }
     
     private func setupUI() {
@@ -61,31 +66,21 @@ class CharacterDetailViewController: UIViewController, UIColorGlobalAppearance {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
         
+        let nameStackView = UIStackView(arrangedSubviews: [nameLabel, shareButton])
+        nameStackView.axis = .horizontal
+        nameStackView.spacing = 8
+        nameStackView.alignment = .center
+        
+        characterImageView.contentMode = .scaleAspectFit
+        characterImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = UIFont.systemFont(ofSize: 16)
         
-        comicsLabel.numberOfLines = 0
-        comicsLabel.font = UIFont.systemFont(ofSize: 16)
-        
-        seriesLabel.numberOfLines = 0
-        seriesLabel.font = UIFont.systemFont(ofSize: 16)
-        
-        storiesLabel.numberOfLines = 0
-        storiesLabel.font = UIFont.systemFont(ofSize: 16)
-        
-        eventsLabel.numberOfLines = 0
-        eventsLabel.font = UIFont.systemFont(ofSize: 16)
-        
-        resourceURILabel.numberOfLines = 0
-        resourceURILabel.font = UIFont.systemFont(ofSize: 16)
-        
-        urlsLabel.numberOfLines = 0
-        urlsLabel.font = UIFont.systemFont(ofSize: 16)
-        
         let stackView = UIStackView(arrangedSubviews: [
             characterImageView,
-            nameLabel,
+            nameStackView,
             descriptionLabel,
             comicsLabel,
             seriesLabel,
@@ -97,31 +92,57 @@ class CharacterDetailViewController: UIViewController, UIColorGlobalAppearance {
         
         stackView.axis = .vertical
         stackView.spacing = 16
-        stackView.alignment = .center
+        stackView.alignment = .fill
         
-        view.addSubview(stackView)
+        contentView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            characterImageView.heightAnchor.constraint(equalToConstant: 200),
-            characterImageView.widthAnchor.constraint(equalToConstant: 200),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            
+            characterImageView.heightAnchor.constraint(lessThanOrEqualToConstant: 300),
+            characterImageView.widthAnchor.constraint(lessThanOrEqualTo: stackView.widthAnchor)
         ])
+        
+        shareButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        shareButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+
+    
+    private func setupFavoriteButton() {
+        
+        let favoriteButton = UIBarButtonItem(
+            image: vm.isFavorited ? UIImage(systemName: "star.fill") : UIImage(systemName: "star"),
+            style: .plain,
+            target: self,
+            action: #selector(toggleFavoriteStatus)
+        )
+        
+        navigationItem.rightBarButtonItem = favoriteButton
     }
     
-    private func bindViewModel() {
-        nameLabel.text = viewModel.name
-        descriptionLabel.text = viewModel.description
-        comicsLabel.text = "Comics: \(viewModel.comics)"
-        seriesLabel.text = "Series: \(viewModel.series)"
-        storiesLabel.text = "Stories: \(viewModel.stories)"
-        eventsLabel.text = "Events: \(viewModel.events)"
-        resourceURILabel.text = "Resource URI: \(viewModel.resourceURI)"
-        urlsLabel.text = "URLs:\n\(viewModel.urls)"
+    private func updateFavoriteButton() {
+        vm.updateFavoriteStatus()
+        navigationItem.rightBarButtonItem?.image = vm.isFavorited ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
         
-        if let imageUrl = viewModel.imageUrl {
+        print("is favorited? \(vm.isFavorited)")
+    }
+
+    
+    private func bindViewModel() {
+        nameLabel.text = vm.name
+        descriptionLabel.text = vm.description
+        comicsLabel.text = "Comics: \(vm.comics)"
+        seriesLabel.text = "Series: \(vm.series)"
+        storiesLabel.text = "Stories: \(vm.stories)"
+        eventsLabel.text = "Events: \(vm.events)"
+        resourceURILabel.text = "Resource URI: \(vm.resourceURI)"
+        urlsLabel.text = "URLs:\n\(vm.urls)"
+        
+        if let imageUrl = vm.imageUrl {
             loadImage(from: imageUrl)
         }
     }
@@ -148,10 +169,30 @@ class CharacterDetailViewController: UIViewController, UIColorGlobalAppearance {
         
         task.resume()
     }
+    
+    private let shareButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "arrow.up"), for: .normal) 
+        button.tintColor = .red
+        button.addTarget(self, action: #selector(shareCharacterImage), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     private func setPlaceholderImage() {
         DispatchQueue.main.async {
             self.characterImageView.image = UIImage(named: "placeholder")
+        }
+    }
+    
+    @objc private func toggleFavoriteStatus() {
+         vm.toggleFavoriteStatus()
+         updateFavoriteButton()
+     }
+    
+    @objc private func shareCharacterImage() {
+        DispatchQueue.main.async {
+            self.vm.didTapShare()
         }
     }
 }
