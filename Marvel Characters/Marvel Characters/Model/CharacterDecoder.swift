@@ -52,7 +52,7 @@ struct ThumbnailDecoder: Decodable {
     let `extension`: String
 
     var imageURL: URL? {
-        let securePath = path.replacingOccurrences(of: "http://", with: "https://")
+        let securePath = path.replacingOccurrences(of: "http", with: "https")
         return URL(string: "\(securePath).\(`extension`)")
     }
 

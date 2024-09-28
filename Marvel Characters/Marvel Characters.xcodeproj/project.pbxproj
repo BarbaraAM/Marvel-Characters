@@ -11,6 +11,7 @@
 		6B13E1482CA8822400C8B962 /* MockCharacterSwiftData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13E1472CA8822400C8B962 /* MockCharacterSwiftData.swift */; };
 		6B13E14A2CA8829B00C8B962 /* CharactersSwiftDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13E1492CA8829B00C8B962 /* CharactersSwiftDataTests.swift */; };
 		6B13E14C2CA8855F00C8B962 /* CharacterSwiftData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13E14B2CA8855F00C8B962 /* CharacterSwiftData.swift */; };
+		6B13E14E2CA88CED00C8B962 /* GlobalAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13E14D2CA88CED00C8B962 /* GlobalAppearance.swift */; };
 		6BA93BA12CA60F83001745F1 /* MockListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BA02CA60F83001745F1 /* MockListVC.swift */; };
 		6BA93BA32CA60FAB001745F1 /* MockCharacterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BA22CA60FAB001745F1 /* MockCharacterService.swift */; };
 		6BA93BA52CA615A2001745F1 /* CharacterServicel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BA42CA615A2001745F1 /* CharacterServicel.swift */; };
@@ -59,6 +60,7 @@
 		6B13E1472CA8822400C8B962 /* MockCharacterSwiftData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCharacterSwiftData.swift; sourceTree = "<group>"; };
 		6B13E1492CA8829B00C8B962 /* CharactersSwiftDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersSwiftDataTests.swift; sourceTree = "<group>"; };
 		6B13E14B2CA8855F00C8B962 /* CharacterSwiftData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSwiftData.swift; sourceTree = "<group>"; };
+		6B13E14D2CA88CED00C8B962 /* GlobalAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAppearance.swift; sourceTree = "<group>"; };
 		6BA93BA02CA60F83001745F1 /* MockListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListVC.swift; sourceTree = "<group>"; };
 		6BA93BA22CA60FAB001745F1 /* MockCharacterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCharacterService.swift; sourceTree = "<group>"; };
 		6BA93BA42CA615A2001745F1 /* CharacterServicel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterServicel.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				6BA93BA42CA615A2001745F1 /* CharacterServicel.swift */,
 				6BA93BAA2CA6234D001745F1 /* URLSession.swift */,
 				6B13E14B2CA8855F00C8B962 /* CharacterSwiftData.swift */,
+				6B13E14D2CA88CED00C8B962 /* GlobalAppearance.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				6BEA30662CA4ACB100413203 /* ListViewController.swift in Sources */,
 				6BEA306A2CA4ED1700413203 /* CharacterVM.swift in Sources */,
 				6BCA30432CA4A39A00BB4599 /* AppCoordinator.swift in Sources */,
+				6B13E14E2CA88CED00C8B962 /* GlobalAppearance.swift in Sources */,
 				6BA93BAF2CA6532F001745F1 /* CharacterDetailsVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

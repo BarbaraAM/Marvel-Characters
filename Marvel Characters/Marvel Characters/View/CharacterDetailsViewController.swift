@@ -7,10 +7,12 @@
 
 import UIKit
 
-class CharacterDetailViewController: UIViewController {
+class CharacterDetailViewController: UIViewController, UIColorGlobalAppearance {
     
     private let viewModel: CharacterDetailViewModel
     private let characterImageView = UIImageView()
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     private let nameLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let comicsLabel = UILabel()
@@ -31,12 +33,34 @@ class CharacterDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configureAppearance()
+        
         setupUI()
         bindViewModel()
     }
     
     private func setupUI() {
-        view.backgroundColor = .white
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        scrollView.addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+        
         nameLabel.font = UIFont.boldSystemFont(ofSize: 24)
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = UIFont.systemFont(ofSize: 16)
@@ -103,16 +127,31 @@ class CharacterDetailViewController: UIViewController {
     }
     
     private func loadImage(from url: URL) {
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    self.characterImageView.image = image
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.characterImageView.image = UIImage(named: "placeholder")
-                }
+        let task = URLSession.shared.dataTask(with: url, completion: { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Failed to load image: \(error)")
+                self.setPlaceholderImage()
+                return
             }
+            
+            guard let data = data, let image = UIImage(data: data) else {
+                self.setPlaceholderImage()
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.characterImageView.image = image
+            }
+        })
+        
+        task.resume()
+    }
+
+    private func setPlaceholderImage() {
+        DispatchQueue.main.async {
+            self.characterImageView.image = UIImage(named: "placeholder")
         }
     }
 }

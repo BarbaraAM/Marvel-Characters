@@ -8,7 +8,7 @@
 import UIKit
 import SwiftData
 
-class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIColorGlobalAppearance {
 
     weak var coordinator: AppCoordinator?
     var container: ModelContainer?
@@ -18,11 +18,12 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //configuring the appearance conforms the protocol
+        configureAppearance()
         
         //inializating the SwiftData Container
         container = try? ModelContainer(for: MarvelCharacterStorage.self)
         title = "Marvel Characters"
-        view.backgroundColor = .white
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         setUpSearchBar()
