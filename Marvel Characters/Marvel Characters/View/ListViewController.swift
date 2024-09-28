@@ -20,7 +20,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         //inializating the SwiftData Container
-        container = try? ModelContainer(for: MarvelCharacter.self)
+        container = try? ModelContainer(for: MarvelCharacterStorage.self)
         title = "Marvel Characters"
         view.backgroundColor = .white
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -95,6 +95,13 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         let character = vm.filteredCharacters[indexPath.row]
         cell.textLabel?.text = character.name
         
+        if vm.isCharacterFavorited(character) {
+            cell.accessoryView = UIImageView(image: UIImage(systemName: "star.fill"))
+            cell.accessoryView?.tintColor = .systemYellow
+        } else {
+            cell.accessoryView = nil
+        }
+        
         return cell
     }
     
@@ -115,5 +122,40 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
         vm.filterCharacters(with: "")
+    }
+    
+    //Swipe Action
+    
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let favoriteAction = UIContextualAction(style: .normal, title: "Favoritar") { [weak self] (action, view, completionHandler) in
+            let character = self?.vm.filteredCharacters[indexPath.row]
+            print("\(character?.name ?? "") favoritado!")
+            
+            self?.vm.favoriteCharacter(at: indexPath.row)
+
+            
+            completionHandler(true)
+        }
+        
+        favoriteAction.backgroundColor = .systemPink
+        favoriteAction.image = UIImage(systemName: "suit.heart.fill")
+        let configuration = UISwipeActionsConfiguration(actions: [favoriteAction])
+        return configuration
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let unfavCharacter = UIContextualAction(style: .normal, title: "Desfavoritar") { [weak self] (action, view, completionHandler) in
+            
+            self?.vm.unfavoriteCharacter(at: indexPath.row)
+            completionHandler(true)
+        }
+        
+        unfavCharacter.image = UIImage(systemName: "suit.heart.slash.fill")
+        unfavCharacter.backgroundColor = .systemRed
+        
+        let configuration = UISwipeActionsConfiguration(actions: [unfavCharacter])
+        
+        return configuration
     }
 }

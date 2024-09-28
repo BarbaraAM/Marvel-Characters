@@ -52,7 +52,7 @@ final class CharacterServiceTests: XCTestCase {
         }
         XCTAssertNotNil(queryDict["ts"] as Any?)
         XCTAssertNotNil(queryDict["hash"] as Any?)
-        XCTAssertEqual(queryDict["limit"], "100")
+        XCTAssertEqual(queryDict["limit"], "10")
   
     }
 

@@ -9,11 +9,11 @@ import Foundation
 import SwiftData
 
 @Model
-class MarvelCharacter: Codable {
-    let id: Int?
-    let name: String?
-    let characterDescription: String?
-    let resourceURI: String?
+class MarvelCharacterStorage: Codable {
+    var id: Int?
+    var name: String?
+    var characterDescription: String?
+    var resourceURI: String?
     @Relationship(deleteRule: .cascade) var urls: [Url]?
     @Relationship(deleteRule: .cascade) var thumbnail: Thumbnail?
     @Relationship(deleteRule: .cascade) var comics: ComicList?

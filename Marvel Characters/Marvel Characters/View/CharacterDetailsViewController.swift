@@ -13,6 +13,12 @@ class CharacterDetailViewController: UIViewController {
     private let characterImageView = UIImageView()
     private let nameLabel = UILabel()
     private let descriptionLabel = UILabel()
+    private let comicsLabel = UILabel()
+    private let seriesLabel = UILabel()
+    private let storiesLabel = UILabel()
+    private let eventsLabel = UILabel()
+    private let resourceURILabel = UILabel()
+    private let urlsLabel = UILabel()
     
     init(viewModel: CharacterDetailViewModel) {
         self.viewModel = viewModel
@@ -35,7 +41,36 @@ class CharacterDetailViewController: UIViewController {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = UIFont.systemFont(ofSize: 16)
         
-        let stackView = UIStackView(arrangedSubviews: [characterImageView, nameLabel, descriptionLabel])
+        comicsLabel.numberOfLines = 0
+        comicsLabel.font = UIFont.systemFont(ofSize: 16)
+        
+        seriesLabel.numberOfLines = 0
+        seriesLabel.font = UIFont.systemFont(ofSize: 16)
+        
+        storiesLabel.numberOfLines = 0
+        storiesLabel.font = UIFont.systemFont(ofSize: 16)
+        
+        eventsLabel.numberOfLines = 0
+        eventsLabel.font = UIFont.systemFont(ofSize: 16)
+        
+        resourceURILabel.numberOfLines = 0
+        resourceURILabel.font = UIFont.systemFont(ofSize: 16)
+        
+        urlsLabel.numberOfLines = 0
+        urlsLabel.font = UIFont.systemFont(ofSize: 16)
+        
+        let stackView = UIStackView(arrangedSubviews: [
+            characterImageView,
+            nameLabel,
+            descriptionLabel,
+            comicsLabel,
+            seriesLabel,
+            storiesLabel,
+            eventsLabel,
+            resourceURILabel,
+            urlsLabel
+        ])
+        
         stackView.axis = .vertical
         stackView.spacing = 16
         stackView.alignment = .center
@@ -55,6 +90,12 @@ class CharacterDetailViewController: UIViewController {
     private func bindViewModel() {
         nameLabel.text = viewModel.name
         descriptionLabel.text = viewModel.description
+        comicsLabel.text = "Comics: \(viewModel.comics)"
+        seriesLabel.text = "Series: \(viewModel.series)"
+        storiesLabel.text = "Stories: \(viewModel.stories)"
+        eventsLabel.text = "Events: \(viewModel.events)"
+        resourceURILabel.text = "Resource URI: \(viewModel.resourceURI)"
+        urlsLabel.text = "URLs:\n\(viewModel.urls)"
         
         if let imageUrl = viewModel.imageUrl {
             loadImage(from: imageUrl)

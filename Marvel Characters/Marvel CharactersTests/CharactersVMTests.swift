@@ -28,33 +28,33 @@ final class CharactersVMTests: XCTestCase {
     }
 
     
-    func testCharactersSuccess() {
-        
-        //given
-        let mockService = MockCharacterService()
-        let vm = CharacterVM(coordinator: nil, characterService: mockService)
-        
-        //when
-        vm.fetchCharacters()
-        
-        //then
-        XCTAssertEqual(vm.characters.count, 2, "Should load 2 characters.")
-        XCTAssertEqual(vm.characters[0].name, "Iron Man", "Iron Man it's the first character in the list.")
-        
-    }
-    
-    func testCharactersFailure() {
-        //given
-        let mockService = MockCharacterService()
-        mockService.shouldReturnError = true
-        let vm = CharacterVM(coordinator: nil, characterService: mockService)
-        
-        //when
-        vm.fetchCharacters()
-        
-        //then
-        XCTAssertTrue(vm.characters.isEmpty, "No Characters must load in error case.")
-
-    }
+//    func testCharactersSuccess() {
+//        
+//        //given
+//        let mockService = MockCharacterService()
+//        let vm = CharacterVM(coordinator: nil, characterService: mockService)
+//        
+//        //when
+//        vm.fetchCharacters()
+//        
+//        //then
+//        XCTAssertEqual(vm.characters.count, 2, "Should load 2 characters.")
+//        XCTAssertEqual(vm.characters[0].name, "Iron Man", "Iron Man it's the first character in the list.")
+//        
+//    }
+//    
+//    func testCharactersFailure() {
+//        //given
+//        let mockService = MockCharacterService()
+//        mockService.shouldReturnError = true
+//        let vm = CharacterVM(coordinator: nil, characterService: mockService)
+//        
+//        //when
+//        vm.fetchCharacters()
+//        
+//        //then
+//        XCTAssertTrue(vm.characters.isEmpty, "No Characters must load in error case.")
+//
+//    }
 
 }

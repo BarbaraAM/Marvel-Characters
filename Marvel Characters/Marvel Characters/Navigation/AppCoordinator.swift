@@ -10,7 +10,7 @@ import UIKit
 //herda e define navegaçoes especificas
 protocol AppCoordinating: Coordinator {
     func showMainScreen()
-    func showCharacterDetail(for character: MarvelCharacter)
+    func showCharacterDetail(for character: MarvelCharacterDecoder)
 }
 
 class AppCoordinator: AppCoordinating {
@@ -42,7 +42,7 @@ class AppCoordinator: AppCoordinating {
     }
     
     //navigate to character screen
-    func showCharacterDetail(for character: MarvelCharacter) {
+    func showCharacterDetail(for character: MarvelCharacterDecoder) {
         let detailViewModel = CharacterDetailViewModel(character: character)
         let detailViewController = CharacterDetailViewController(viewModel: detailViewModel)
         navigationControler.pushViewController(detailViewController, animated: true)
