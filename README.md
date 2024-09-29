@@ -4,6 +4,31 @@
 
 Este aplicativo consome a API da Marvel para exibir personagens e permite a persistência de dados usando SwiftData. Utilizamos o padrão MVVM-C (Model-View-ViewModel-Coordinator) para organizar a arquitetura. Além disso, o projeto inclui testes unitários para garantir a qualidade e estabilidade das principais funcionalidades.
 
+## Instruções Básicas de Como Executar o Projeto
+
+1. **Clone o repositório**:
+2. **Abra o projeto**: Abra o arquivo `.xcodeproj` no Xcode.
+3. **Compile e execute**: Selecione um simulador ou dispositivo físico e clique em "Run" no Xcode para iniciar o aplicativo.
+
+## Como usar o aplicativo
+
+1. **Favoritar e Desfavoritar Personagens**:
+- Na lista de personagens, deslize para a esquerda para favoritar ou para a direita para desfavoritar um personagem.
+- Um ícone de estrela indicará os personagens que foram favoritados.
+
+2. **Testar o Detector de Conexão**:
+- Desconecte o Wi-Fi do dispositivo para verificar como o app lida com a falta de conexão. 
+- Você verá uma mensagem informando a ausência de conexão e um botão para "Tentar novamente".
+- Reconecte o Wi-Fi e clique em "Tentar novamente" para recarregar a lista de personagens.
+
+3. **Acessar Detalhes do Personagem**:
+- Toque em um personagem na lista para visualizar seus detalhes.
+- Na tela de detalhes, você pode favoritar ou desfavoritar o personagem, e a mudança será refletida automaticamente na lista principal.
+- Use o botão de compartilhar para compartilhar a imagem do personagem com outros aplicativos.
+
+4. **Visualizar Comics, Series, e Outros Detalhes**:
+- Os componentes de comics, séries, e outros detalhes são responsivos. Se o texto exceder 3 linhas, clique nele para visualizar o conteúdo completo.
+
 ## Decisões de Arquitetura
 
 ### Coordinator Pattern
