@@ -11,4 +11,8 @@ protocol CharacterSwiftDataDataManaging {
     func saveCharacterToStorage(_ character: MarvelCharacterStorage)
     func fetchStoredCharacters(completion: @escaping (Result<[MarvelCharacterStorage], Error>) -> Void)
     func deleteCharacter(byId id: Int)
+    func convertDecoderToStorage(for character: MarvelCharacterDecoder) -> MarvelCharacterStorage
+    func isCharacterFavorited(byId id: Int) -> Bool
+
+
 }

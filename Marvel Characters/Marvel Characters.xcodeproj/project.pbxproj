@@ -16,7 +16,7 @@
 		6B13E1522CA9C4F600C8B962 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13E1512CA9C4F600C8B962 /* UITableViewCell.swift */; };
 		6B13E1542CA9C51D00C8B962 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13E1532CA9C51D00C8B962 /* UIImage.swift */; };
 		6B13E1562CA9C8F000C8B962 /* UINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13E1552CA9C8F000C8B962 /* UINavigationBar.swift */; };
-		6BA93BA12CA60F83001745F1 /* MockListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BA02CA60F83001745F1 /* MockListVC.swift */; };
+		6B13E1582CA9E68D00C8B962 /* CharactersFavoritesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B13E1572CA9E68D00C8B962 /* CharactersFavoritesTests.swift */; };
 		6BA93BA32CA60FAB001745F1 /* MockCharacterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BA22CA60FAB001745F1 /* MockCharacterService.swift */; };
 		6BA93BA52CA615A2001745F1 /* CharacterServicel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BA42CA615A2001745F1 /* CharacterServicel.swift */; };
 		6BA93BA92CA6214C001745F1 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BA82CA6214C001745F1 /* MockURLSession.swift */; };
@@ -25,7 +25,6 @@
 		6BA93BAF2CA6532F001745F1 /* CharacterDetailsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BAE2CA6532F001745F1 /* CharacterDetailsVM.swift */; };
 		6BA93BB12CA65380001745F1 /* CharacterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BB02CA65380001745F1 /* CharacterDetailsViewController.swift */; };
 		6BA93BB92CA65C6E001745F1 /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA93BB82CA65C6E001745F1 /* SwiftDataManager.swift */; };
-		6BC5676D2CA60A0900990C76 /* CharactersVMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5676C2CA60A0900990C76 /* CharactersVMTests.swift */; };
 		6BC5677A2CA60A1D00990C76 /* Marvel_CharactersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC567792CA60A1D00990C76 /* Marvel_CharactersUITests.swift */; };
 		6BC5677C2CA60A1D00990C76 /* Marvel_CharactersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC5677B2CA60A1D00990C76 /* Marvel_CharactersUITestsLaunchTests.swift */; };
 		6BCA30232CA49D1000BB4599 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCA30222CA49D1000BB4599 /* AppDelegate.swift */; };
@@ -69,7 +68,7 @@
 		6B13E1512CA9C4F600C8B962 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
 		6B13E1532CA9C51D00C8B962 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		6B13E1552CA9C8F000C8B962 /* UINavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationBar.swift; sourceTree = "<group>"; };
-		6BA93BA02CA60F83001745F1 /* MockListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockListVC.swift; sourceTree = "<group>"; };
+		6B13E1572CA9E68D00C8B962 /* CharactersFavoritesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersFavoritesTests.swift; sourceTree = "<group>"; };
 		6BA93BA22CA60FAB001745F1 /* MockCharacterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCharacterService.swift; sourceTree = "<group>"; };
 		6BA93BA42CA615A2001745F1 /* CharacterServicel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterServicel.swift; sourceTree = "<group>"; };
 		6BA93BA82CA6214C001745F1 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
@@ -79,7 +78,6 @@
 		6BA93BB02CA65380001745F1 /* CharacterDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailsViewController.swift; sourceTree = "<group>"; };
 		6BA93BB82CA65C6E001745F1 /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
 		6BC5676A2CA60A0900990C76 /* Marvel CharactersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Marvel CharactersTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BC5676C2CA60A0900990C76 /* CharactersVMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersVMTests.swift; sourceTree = "<group>"; };
 		6BC567772CA60A1D00990C76 /* Marvel CharactersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Marvel CharactersUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BC567792CA60A1D00990C76 /* Marvel_CharactersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marvel_CharactersUITests.swift; sourceTree = "<group>"; };
 		6BC5677B2CA60A1D00990C76 /* Marvel_CharactersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marvel_CharactersUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 		6BA93B9F2CA60F61001745F1 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
-				6BA93BA02CA60F83001745F1 /* MockListVC.swift */,
 				6BA93BA82CA6214C001745F1 /* MockURLSession.swift */,
 				6BA93BA22CA60FAB001745F1 /* MockCharacterService.swift */,
 				6B13E1472CA8822400C8B962 /* MockCharacterSwiftData.swift */,
@@ -139,9 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				6BA93B9F2CA60F61001745F1 /* Mock */,
-				6BC5676C2CA60A0900990C76 /* CharactersVMTests.swift */,
 				6B13E1492CA8829B00C8B962 /* CharactersSwiftDataTests.swift */,
 				6BA93BAC2CA62BB9001745F1 /* CharacterServiceTests.swift */,
+				6B13E1572CA9E68D00C8B962 /* CharactersFavoritesTests.swift */,
 			);
 			path = "Marvel CharactersTests";
 			sourceTree = "<group>";
@@ -388,10 +385,9 @@
 				6BA93BAD2CA62BB9001745F1 /* CharacterServiceTests.swift in Sources */,
 				6BA93BA92CA6214C001745F1 /* MockURLSession.swift in Sources */,
 				6B13E14A2CA8829B00C8B962 /* CharactersSwiftDataTests.swift in Sources */,
-				6BA93BA12CA60F83001745F1 /* MockListVC.swift in Sources */,
+				6B13E1582CA9E68D00C8B962 /* CharactersFavoritesTests.swift in Sources */,
 				6B13E1482CA8822400C8B962 /* MockCharacterSwiftData.swift in Sources */,
 				6BA93BA32CA60FAB001745F1 /* MockCharacterService.swift in Sources */,
-				6BC5676D2CA60A0900990C76 /* CharactersVMTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

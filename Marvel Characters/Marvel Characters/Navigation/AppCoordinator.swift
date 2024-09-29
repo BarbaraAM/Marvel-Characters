@@ -37,12 +37,9 @@ class AppCoordinator: AppCoordinating {
     var type: CoordinatorType = .app
     
     var finishDelegate: CoordinatorFinish?
-    
-    private var tabBarController : UITabBarController
-    
+        
     init(_ navigationControler: UINavigationController) {
         self.navigationControler = navigationControler
-        self.tabBarController = UITabBarController()
     }
     
     func start() {

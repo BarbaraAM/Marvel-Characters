@@ -13,6 +13,7 @@ class MarvelCharacterStorage: Codable {
     var id: Int?
     var name: String?
     var characterDescription: String?
+    var modified: String?
     var resourceURI: String?
     @Relationship(deleteRule: .cascade) var urls: [Url]?
     @Relationship(deleteRule: .cascade) var thumbnail: Thumbnail?
@@ -22,17 +23,18 @@ class MarvelCharacterStorage: Codable {
     @Relationship(deleteRule: .cascade) var series: SeriesList?
     
     convenience init(id: Int, name: String, characterDescription: String) {
-        self.init(id: id, name: name, characterDescription: characterDescription, resourceURI: nil, urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
+        self.init(id: id, name: name, characterDescription: characterDescription, modified: "", resourceURI: nil, urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
     }
     
     convenience init(id: Int, name: String) {
-        self.init(id: id, name: name, characterDescription: nil, resourceURI: nil, urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
+        self.init(id: id, name: name, characterDescription: nil, modified: "", resourceURI: nil, urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
     }
     
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case characterDescription = "description"
+        case modified
         case resourceURI
         case urls
         case thumbnail
@@ -41,7 +43,7 @@ class MarvelCharacterStorage: Codable {
         case events
         case series
     }
-    init(id: Int?, name: String?, characterDescription: String?, resourceURI: String?, urls: [Url]?, thumbnail: Thumbnail?, comics: ComicList?, stories: StoryList?, events: EventList?, series: SeriesList?) {
+    init(id: Int?, name: String?, characterDescription: String?, modified: String, resourceURI: String?, urls: [Url]?, thumbnail: Thumbnail?, comics: ComicList?, stories: StoryList?, events: EventList?, series: SeriesList?) {
         self.id = id
         self.name = name
         self.characterDescription = characterDescription

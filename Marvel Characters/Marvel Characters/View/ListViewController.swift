@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftData
+import Network
 
 class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIColorGlobalAppearance {
     
@@ -15,6 +16,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     private var tableView = UITableView()
     private var searchBar = UISearchBar()
     private var vm: ListViewModel
+    private let monitor = NWPathMonitor()
+    private let queue = DispatchQueue(label: "NetworkMonitor")
+    private var isLoading = false
+    private var hasFetchedAfterReconnection = false
     
     init(vm: ListViewModel) {
         self.vm = vm
@@ -32,28 +37,51 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //inializating the SwiftData Container
         container = try? ModelContainer(for: MarvelCharacterStorage.self)
-        title = "Marvel Characters"
+        title = "Personagens da Marvel"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         setUpSearchBar()
         setUpTableView()
         setUpEmptyStateLabel()
-        
+        setUpFetchButton()
+        setUpActivityIndicator()
+
         
         vm.onCharactersUpdated = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.updateUI()
+                self?.hideLoadingIndicator()
             }}
         
         vm.onFetchError = { [weak self] errorMessage in
             DispatchQueue.main.async {
                 self?.showErrorAlert(message: errorMessage)
-             //   self?.showEmptyState(message: "Erro ao carregar os dados.")
+                self?.hideLoadingIndicator()
             }
         }
-        vm.fetchCharacters()
         
+        showLoadingIndicator()
+        
+        monitor.pathUpdateHandler = { [weak self] path in
+            if path.status == .satisfied {
+                if self?.hasFetchedAfterReconnection == false {
+                    DispatchQueue.main.async {
+                        self?.fetchButton.isHidden = true
+                        self?.showLoadingIndicator()
+                        self?.vm.fetchCharacters()
+                        self?.hasFetchedAfterReconnection = true
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self?.fetchButton.isHidden = false
+                    self?.hideLoadingIndicator()
+                    self?.hasFetchedAfterReconnection = false
+                }
+            }
+        }
+        monitor.start(queue: queue)
     }
     
     private func setUpSearchBar() {
@@ -159,8 +187,62 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         emptyStateLabel.isHidden = true
         tableView.isHidden = false
     }
+    //loading
+    private var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .systemRed
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     
+    private func setUpActivityIndicator() {
+        view.addSubview(activityIndicator)
+        
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
     
+    private func showLoadingIndicator() {
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+        tableView.isHidden = true
+    }
+
+    private func hideLoadingIndicator() {
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
+        tableView.isHidden = false
+    }
+    
+    private func setUpFetchButton() {
+        view.addSubview(fetchButton)
+        
+        fetchButton.addTarget(self, action: #selector(fetchCharacters), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            fetchButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            fetchButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            fetchButton.widthAnchor.constraint(equalToConstant: 200),
+            fetchButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    private var fetchButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Tentar novamente", for: .normal)
+        button.backgroundColor = .systemRed
+        button.tintColor = .white
+        button.layer.cornerRadius = 8
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
+        return button
+    }()
+    
+    @objc private func fetchCharacters() {
+        vm.fetchCharacters()
+    }
     
     //UITableViewDataSource methods
     

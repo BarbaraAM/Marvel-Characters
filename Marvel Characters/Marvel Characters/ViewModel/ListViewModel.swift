@@ -12,7 +12,8 @@ class ListViewModel {
     private let coordinator: AppCoordinating?
     //configuring the protocol to test
     private let characterService: CharacterServiceProtocol
-    private let characterManager = CharactersSwiftDataManager.shared
+    private var characterManager: CharacterSwiftDataDataManaging
+//    private let characterManager = CharactersSwiftDataManager.shared
     private var hasConnectionIssue = false
     
     var characters: [MarvelCharacterDecoder] = [] {
@@ -28,9 +29,10 @@ class ListViewModel {
     var onFetchError: ((String) -> Void)?
     
     //passando uma instancia para uma classe que conforma o protocolo
-    init(coordinator: AppCoordinating? = nil, characterService: CharacterServiceProtocol = CharacterService()) {
+    init(coordinator: AppCoordinating? = nil, characterService: CharacterServiceProtocol = CharacterService(), characterManager: CharacterSwiftDataDataManaging = CharactersSwiftDataManager.shared) {
         self.coordinator = coordinator
         self.characterService = characterService
+        self.characterManager = characterManager
     }
     
     func fetchCharacters() {

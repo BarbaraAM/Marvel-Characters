@@ -39,18 +39,6 @@ extension UIColorGlobalAppearance where Self: UIViewController {
             
             navigationBar.setResponsiveAvenirTitleFont()
             
-//            let tintColor = UIColor { traitCollection in
-//                switch traitCollection.userInterfaceStyle {
-//                case .dark:
-//                    return UIColor.yellow
-//                case .light:
-//                    return UIColor.systemPink
-//                default:
-//                    return UIColor.red
-//                }
-//            }
-//            
-//            navigationBar.tintColor = tintColor
             
             navigationBar.barStyle = traitCollection.userInterfaceStyle == .dark ? .black : .default
         }

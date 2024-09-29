@@ -11,7 +11,7 @@ import SwiftData
 
 //
 class SwiftDataMock: CharacterSwiftDataDataManaging {
-  
+    private var storedCharacters: [MarvelCharacterStorage] = []
     var container: ModelContainer?
     var context: ModelContext?
 
@@ -31,6 +31,9 @@ class SwiftDataMock: CharacterSwiftDataDataManaging {
             print("Error initializing SwiftDataMock container: \(error)")
         }
     }
+    
+    
+    
     
     func saveCharacterToStorage(_ character: MarvelCharacterStorage) {
          do {
@@ -78,5 +81,22 @@ class SwiftDataMock: CharacterSwiftDataDataManaging {
              print("Failed to fetch characters from SwiftDataMock: \(error)")
              return []
          }
+     }
+    
+    //favorite and unfav test
+    
+    func isCharacterFavorited(byId id: Int) -> Bool {
+         return storedCharacters.contains { $0.id == id }
+     }
+     
+     
+     func convertDecoderToStorage(for character: MarvelCharacterDecoder) -> MarvelCharacterStorage {
+         let storageCharacter = MarvelCharacterStorage(
+             id: character.id ?? 0,
+             name: character.name ?? "",
+             characterDescription: character.description ?? ""
+             //resourceURI: character.resourceURI
+         )
+         return storageCharacter
      }
  }

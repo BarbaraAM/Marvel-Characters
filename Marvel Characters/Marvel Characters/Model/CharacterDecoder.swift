@@ -7,11 +7,13 @@
 
 import Foundation
 
+
+
 struct MarvelCharacterDecoder: Decodable {
     let id: Int?
     let name: String?
     let description: String?
-    let modified: Date?
+    let modified: String?
     let resourceURI: String?
     let urls: [UrlDecoder]?
     let thumbnail: ThumbnailDecoder?
@@ -21,12 +23,20 @@ struct MarvelCharacterDecoder: Decodable {
     let series: SeriesListDecoder?
     
     
+    
+    var modifiedDate: Date? {
+        guard let modified = modified else { return nil }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        return dateFormatter.date(from: modified)
+    }
+    
     //convert the relationships
     init(from storage: MarvelCharacterStorage) {
         self.id = storage.id
         self.name = storage.name
         self.description = storage.characterDescription
-        self.modified = nil
+        self.modified = storage.modified
         self.resourceURI = storage.resourceURI
         self.urls = storage.urls?.map { UrlDecoder(from: $0) }
         self.thumbnail = storage.thumbnail.map { ThumbnailDecoder(from: $0) }
@@ -35,6 +45,8 @@ struct MarvelCharacterDecoder: Decodable {
         self.events = storage.events.map { EventListDecoder(from: $0) }
         self.series = storage.series.map { SeriesListDecoder(from: $0) }
     }
+    
+    
 }
 
 struct UrlDecoder: Decodable {
@@ -48,14 +60,17 @@ struct UrlDecoder: Decodable {
 }
 
 struct ThumbnailDecoder: Decodable {
-    let path: String
-    let `extension`: String
-
+    let path: String?
+    let `extension`: String?
+    
     var imageURL: URL? {
+        guard let path = path, let ext = `extension` else {
+            return nil
+        }
+        
         let securePath = path.replacingOccurrences(of: "http", with: "https")
-        return URL(string: "\(securePath).\(`extension`)")
+        return URL(string: "\(securePath).\(ext)")
     }
-
     init(from storage: Thumbnail) {
         self.path = storage.path
         self.`extension` = storage.`extension`

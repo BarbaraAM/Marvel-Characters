@@ -28,6 +28,7 @@ final class CharactersSwiftData: XCTestCase {
                 id: 101,
                 name: "Mock Character",
                 characterDescription: "Test Description",
+                modified: "",
                 resourceURI: "http://mock.url",
                 urls: nil,
                 thumbnail: nil,
@@ -49,8 +50,8 @@ final class CharactersSwiftData: XCTestCase {
         func testFetchingCharacters() {
             
             //given
-            let mockCharacter1 = MarvelCharacterStorage(id: 101, name: "Mock Character 1", characterDescription: "Descrip 1", resourceURI: "http://mock1.url", urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
-            let mockCharacter2 = MarvelCharacterStorage(id: 102, name: "Mock Character 2", characterDescription: "Descrip 2", resourceURI: "http://mock2.url", urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
+            let mockCharacter1 = MarvelCharacterStorage(id: 101, name: "Mock Character 1", characterDescription: "Descrip 1", modified: "", resourceURI: "http://mock1.url", urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
+            let mockCharacter2 = MarvelCharacterStorage(id: 102, name: "Mock Character 2", characterDescription: "Descrip 2", modified: "", resourceURI: "http://mock2.url", urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
             
             mockSwiftData.saveCharacterToStorage(mockCharacter1)
             mockSwiftData.saveCharacterToStorage(mockCharacter2)
@@ -64,7 +65,7 @@ final class CharactersSwiftData: XCTestCase {
         
         func testDeletingCharacter() {
             //given
-            let mockCharacter = MarvelCharacterStorage(id: 103, name: "character to delete", characterDescription: "To be deleted", resourceURI: "http://delete.url", urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
+            let mockCharacter = MarvelCharacterStorage(id: 103, name: "character to delete", characterDescription: "To be deleted", modified: "", resourceURI: "http://delete.url", urls: nil, thumbnail: nil, comics: nil, stories: nil, events: nil, series: nil)
             
             mockSwiftData.saveCharacterToStorage(mockCharacter)
             

@@ -36,6 +36,7 @@ class CharactersSwiftDataManager: CharacterSwiftDataDataManaging {
         let id = model.id ?? 0
         let name = model.name ?? "Unknown"
         let characterDescription = model.description ?? "No description available"
+        let modified = model.modified ?? ""
         let resourceURI = model.resourceURI ?? ""
         
         let urls = mapUrls(model.urls)
@@ -49,6 +50,7 @@ class CharactersSwiftDataManager: CharacterSwiftDataDataManaging {
             id: id,
             name: name,
             characterDescription: characterDescription,
+            modified: modified,
             resourceURI: resourceURI,
             urls: urls,
             thumbnail: thumbnail,
@@ -70,10 +72,15 @@ class CharactersSwiftDataManager: CharacterSwiftDataDataManaging {
     }
 
     private func mapThumbnail(_ thumbnail: ThumbnailDecoder?) -> Thumbnail? {
-        guard let thumbnail = thumbnail else { return nil }
-        let thumbnailObject = Thumbnail(path: thumbnail.path, extension: thumbnail.extension)
+        guard let thumbnail = thumbnail, let path = thumbnail.path, let ext = thumbnail.extension else {
+            return nil
+        }
+        
+        let thumbnailObject = Thumbnail(path: path, extension: ext)
+        
         CharactersSwiftDataManager.shared.context?.insert(thumbnailObject)
         saveContext()
+        
         return thumbnailObject
     }
 
@@ -176,9 +183,9 @@ class CharactersSwiftDataManager: CharacterSwiftDataDataManaging {
             
             try context?.save()
             
-            print("Character saved successfully in SwiftData!")
+            print("character saved successfully in SwiftData")
         } catch {
-            print("Failed to save character to SwiftData: \(error.localizedDescription)")
+            print("failed to save character to SwiftData: \(error.localizedDescription)")
         }
     }
     

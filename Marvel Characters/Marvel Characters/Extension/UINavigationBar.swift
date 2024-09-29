@@ -8,7 +8,6 @@
 import UIKit
 
 extension UINavigationBar {
-    /// Configura a fonte responsiva para a NavigationBar com Avenir Bold
     func setResponsiveAvenirTitleFont() {
         let preferredFontSize: CGFloat
         

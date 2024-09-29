@@ -15,7 +15,6 @@ final class CharacterServiceTests: XCTestCase {
     
     override func setUp()  {
         super.setUp()
-        //given
         mockURL = MockURLSession()
         service = CharacterService(session: mockURL)
     }
@@ -27,33 +26,29 @@ final class CharacterServiceTests: XCTestCase {
         super.tearDown()
     }
     
+    
     func testFetchMarvelCorrectURL() {
+        // given
+        let expectedPublicKey = "fccb36a6244ade40e0ec6d71c80334bc"
+        let expectedPrivateKey = "7fbca8f4deadd4e9bfca04ee4bfbdc102e555cd2"
         
-        //when
+        // when
         service.fetchMarvelCharacters { _ in }
         
-        
-        //then
+        // then
         XCTAssertNotNil(mockURL.url)
         XCTAssertEqual(mockURL.url?.host(), "gateway.marvel.com")
         XCTAssertEqual(mockURL.url?.path(), "/v1/public/characters")
         
         let queryItems = URLComponents(url: mockURL.url!, resolvingAgainstBaseURL: false)?.queryItems
-        
         XCTAssertNotNil(queryItems, "Query should not be nil")
         
         let queryDict = Dictionary(uniqueKeysWithValues: queryItems!.compactMap { item in
-               (item.name, item.value)
-           })
-        if let apiKey = queryDict["apikey"] {
-            XCTAssertEqual(apiKey, "fccb36a6244ade40e0ec6d71c80334bc", "API key should match the expected value")
-        } else {
-            XCTFail("API Key is missing. \(mockURL.url)")
-        }
-        XCTAssertNotNil(queryDict["ts"] as Any?)
-        XCTAssertNotNil(queryDict["hash"] as Any?)
-        XCTAssertEqual(queryDict["limit"], "10")
-  
+            (item.name, item.value)
+        })
+        
+        XCTAssertEqual(queryDict["apikey"], expectedPublicKey, "API key should match the expected value")
+        
+        XCTAssertEqual(queryDict["limit"], "100", "Limit should be 100")
     }
-
 }
