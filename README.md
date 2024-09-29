@@ -13,6 +13,7 @@ O `AppCoordinator` gerencia os fluxos de navegação da aplicação, separando a
 
 ### Views
 - **ListViewController**:
+  - Listagem de personagens favoritados sem internet.
   - Interface limpa e minimalista.
   - Swipe actions para favoritar/desfavoritar personagens.
   - Exibe a imagem do personagem e inclui uma barra de pesquisa.
