@@ -14,8 +14,46 @@ protocol UIColorGlobalAppearance {
 
 extension UIColorGlobalAppearance where Self: UIViewController {
     func configureAppearance() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+            default:
+                return UIColor(red: 242/255, green: 241/255, blue: 246/255, alpha: 1)
+            }
+        }
+        
         view.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
- 
+        
+        if let navigationBar = navigationController?.navigationBar {
+            let barColor = UIColor { traitCollection in
+                switch traitCollection.userInterfaceStyle {
+                case .dark:
+                    return UIColor(red: 28/255, green: 28/255, blue: 28/255, alpha: 1)
+                default:
+                    return UIColor(red: 242/255, green: 241/255, blue: 246/255, alpha: 1)
+                }
+            }
+            
+            navigationBar.barTintColor = barColor
+            
+            navigationBar.setResponsiveAvenirTitleFont()
+            
+//            let tintColor = UIColor { traitCollection in
+//                switch traitCollection.userInterfaceStyle {
+//                case .dark:
+//                    return UIColor.yellow
+//                case .light:
+//                    return UIColor.systemPink
+//                default:
+//                    return UIColor.red
+//                }
+//            }
+//            
+//            navigationBar.tintColor = tintColor
+            
+            navigationBar.barStyle = traitCollection.userInterfaceStyle == .dark ? .black : .default
+        }
     }
 }
+

@@ -9,7 +9,7 @@ import UIKit
 import SwiftData
 
 class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIColorGlobalAppearance {
-
+    
     weak var coordinator: AppCoordinator?
     var container: ModelContainer?
     private var tableView = UITableView()
@@ -35,12 +35,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         title = "Marvel Characters"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-       // setUpBindings()
         setUpSearchBar()
         setUpTableView()
         setUpEmptyStateLabel()
         
-//        vm = ListViewModel(coordinator: coordinator!)
         
         vm.onCharactersUpdated = { [weak self] in
             DispatchQueue.main.async {
@@ -51,29 +49,52 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         vm.onFetchError = { [weak self] errorMessage in
             DispatchQueue.main.async {
                 self?.showErrorAlert(message: errorMessage)
-                self?.showEmptyState(message: "Erro ao carregar os dados.")
+             //   self?.showEmptyState(message: "Erro ao carregar os dados.")
             }
         }
         vm.fetchCharacters()
-
+        
     }
     
     private func setUpSearchBar() {
-           searchBar.delegate = self
-           searchBar.placeholder = "Search Characters"
-           
-           searchBar.translatesAutoresizingMaskIntoConstraints = false
-           view.addSubview(searchBar)
-           
-           NSLayoutConstraint.activate([
-               searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-               searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-               searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-           ])
-       }
+        searchBar.delegate = self
+        searchBar.searchTextField.font = UIFont.responsiveAvenirRegularTitleFont(size: 16)
+        searchBar.placeholder = "Pesquisar Personagens"
+        
+        
+        searchBar.barTintColor = UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+            default:
+                return UIColor(red: 242/255, green: 241/255, blue: 246/255, alpha: 1)
+            }
+            
+        }
+        
+        
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchBar)
+        
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+    }
     
     
     private func setUpTableView() {
+        tableView.backgroundColor = UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+            default:
+                return UIColor(red: 242/255, green: 241/255, blue: 246/255, alpha: 1)
+            }
+            
+        }
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -127,20 +148,20 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             hideEmptyState()
         }
     }
-
+    
     private func showEmptyState(message: String) {
         emptyStateLabel.text = message
         emptyStateLabel.isHidden = false
         tableView.isHidden = true
     }
-
+    
     private func hideEmptyState() {
         emptyStateLabel.isHidden = true
         tableView.isHidden = false
     }
     
     
-
+    
     //UITableViewDataSource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -151,7 +172,21 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let character = vm.filteredCharacters[indexPath.row]
         cell.textLabel?.text = character.name
+        cell.textLabel?.font = UIFont.responsiveAvenirFont(forTextStyle: .body, weight: .bold) 
+        cell.textLabel?.adjustsFontForContentSizeCategory = true
+
+        cell.backgroundColor = UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+            default:
+                return UIColor(red: 242/255, green: 241/255, blue: 246/255, alpha: 1)   
+            }
+        }
         
+        cell.setThumbnail(from: character.thumbnail?.imageURL)
+        
+
         if vm.isCharacterFavorited(character) {
             cell.accessoryView = UIImageView(image: UIImage(systemName: "star.fill"))
             cell.accessoryView?.tintColor = .systemYellow
@@ -171,16 +206,25 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     //Search bar methods
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchBar.searchTextField.font = UIFont.responsiveAvenirRegularTitleFont(size: 16)
         print("text changing \(searchText)")
         vm.filterCharacters(with: searchText)
         self.showEmptyState(message: "Erro ao carregar os dados.")
-
-    
+        
+        
     }
     
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
+        searchBar.backgroundColor = UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+            default:
+                return UIColor(red: 242/255, green: 241/255, blue: 246/255, alpha: 1)
+            }
+        }
         vm.filterCharacters(with: "")
     }
     
@@ -194,7 +238,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             
             self?.vm.favoriteCharacter(by: character?.id ?? 0)
-
+            
             
             completionHandler(true)
         }
@@ -206,11 +250,14 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-         let character = vm.filteredCharacters[indexPath.row]
+        let character = vm.filteredCharacters[indexPath.row]
         
         let unfavCharacter = UIContextualAction(style: .normal, title: "Desfavoritar") { [weak self] (action, view, completionHandler) in
-            self?.vm.unfavoriteCharacter(by: character.id ?? 0)
-            completionHandler(true)
+            
+            if let id = character.id {
+                self?.vm.unfavoriteCharacter(by: id)
+                completionHandler(true)
+            }
         }
         
         unfavCharacter.image = UIImage(systemName: "suit.heart.slash.fill")
